@@ -1,3 +1,5 @@
+import { signIn } from "next-auth/react";
+import Link from "next/link";
 
 
 export default function Home() {
@@ -7,6 +9,14 @@ export default function Home() {
     >
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
         <h2>Next Auth</h2>
+        <button className="p-2 rounded bg-blue-600 m-1 text-white">
+          <Link href="/signup">SignUp</Link>
+        </button>
+        <button  
+        className="p-2 rounded bg-blue-600 m-1 text-white">
+                   <Link href="/signin">SignIn</Link>
+
+        </button>
       </div>
     </main>
   );
