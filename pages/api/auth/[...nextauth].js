@@ -4,29 +4,35 @@ import connectDB from "@/utils/connectDB";
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 
+
 const authOptions = {
     session: { strategy: "jwt" },
-    providers: [CredentialsProvider({
-        async authorize(credentials, req) {
-            const { email, password } = credentials
+    providers: [
+        CredentialsProvider({
+            async authorize(credentials, req) {
+              
+                const { email, password } = credentials;
 
-            try {
-                await connectDB()
-            } catch (error) {
-                throw new Error("Error in connecting to DB")
-            }
+                try {
+                    await connectDB()
+                } catch (error) {
+                    throw new Error("Error in connecting to DB")
+                }
 
-            if (!email, !password) throw new Error("Invalid data")
+                if (!email || !password) {
+                    throw new Error("Invalid data")
+                }
 
-            const user = await User.findOne({ email: email })
-            if (!user) throw new Error("user doesn't exist")
+                const user = await User.findOne({ email: email })
 
-            const isValid = await verifyPassword(password, user.password)
-            if (!isValid) throw new Error("email or password incorrect")
+                if (!user) throw new Error("user doesn't exist")
 
-            return { email }
-        },
-    }),
+                const isValid = await verifyPassword(password, user.password)
+                if (!isValid) throw new Error("email or password incorrect")
+
+                return { email }
+            },
+        }),
     ],
 }
 
