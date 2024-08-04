@@ -15,7 +15,7 @@ async function handler(req, res) {
             .status(500)
             .json({ status: "failed", message: "Error in connecting to DB" })
     }
-    const { email, name, lastName, password } = req.body
+    const { email, password } = req.body
     if (!email || !password) {
         return res
             .status(422)
@@ -31,7 +31,7 @@ async function handler(req, res) {
     const hashedPassword = await hashPassword(password)
     console.log(hashedPassword);
 
-    const newUser = await User.create({ email: email, name: name, lastName: lastName, password: hashedPassword })
+    const newUser = await User.create({ email: email, password: hashedPassword })
     console.log(newUser);
 
     res
